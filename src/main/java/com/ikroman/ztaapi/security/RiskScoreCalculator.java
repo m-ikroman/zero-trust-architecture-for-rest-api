@@ -150,10 +150,23 @@ public class RiskScoreCalculator {
     }
 
     private String normalizeIp(String ip) {
-        if (ip != null && ip.startsWith("::ffff:")) {
+//        if (ip != null && ip.startsWith("::ffff:")) {
+//            return ip.substring(7);
+//        }
+//        return ip != null ? ip : "";
+        if (ip == null)
+            return "";
+
+        if (ip.equals("::1") ||
+                ip.equals("0:0:0:0:0:0:0:1")) {
+            return "127.0.0.1";
+        }
+
+        if (ip.startsWith("::ffff:")) {
             return ip.substring(7);
         }
-        return ip != null ? ip : "";
+
+        return ip;
     }
 
     private String buildDetailMessage(int score, PdpDecision decision, List<String> signals) {
